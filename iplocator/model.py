@@ -92,6 +92,7 @@ class Model:
             router = None
             router = self.ttlicmpecho(ip, ttl = ttl)
             if router:
+                routers.append(router)
                 self.iplist.append(router)
             if ip != None and self.view != None: #Las interacciones con View se limitan al caso de que exista para poder usar este módulo independientemente.
                 self.view.progressbar["value"] += 1  #actualizamos el valor de la barra de progreso
