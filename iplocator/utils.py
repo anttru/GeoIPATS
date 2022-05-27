@@ -3,14 +3,14 @@ from random import choices
 from struct import pack
 from threading import Lock
 
-#Este modulo contiene funciones de calculo de valores. Provienen de la libreria icmplib donde son funciones de clase. Contienen alguna modificiación menor, como la corrección de un error en calculatecheksum
+#Este modulo contiene funciones de calculo de valores. Provienen de la libreria icmplib donde son funciones de clase. Son operaciones sobre bits que no tiene sentido reimplementar. Contienen alguna modificiación menor, como la corrección de un error en calculatecheksum
 
 def create_packet(id, sequence):
     #Monta los bits del paquete a partir de los campos
     checksum = 0 #El checksum se pone a 0 a efectos de su calculo
     payload = bytes(choices(b'abcdefghijklmnopqrstuvwxyz' b'ABCDEFGHIJKLMNOPQRSTUVWXYZ'b'1234567890', k=56)) #Se genera un payload aleatorio de 56 bytes, el tamaño minimo
             
-    header = pack('!2B3H', 8, 0, checksum, id, sequence) # La cabecera de 8 bytes, 2 unsigned char (B) seguido de 3 unsigned short (H)
+    header = pack('!2B3H', 8, 0, checksum, id, sequence) # La cabecera de 8 bytes, 2 unsigned char (B) seguido de 3 unsigned short (H), type es 8 y code es 0 por ser una petición de eco
     checksum = calculatechecksum(header + payload) #Se calcula el checksum tomando este como 0
     header = pack('!2B3H', 8, 0, checksum, id, sequence) #Se monta la cabecera con el checksum obtenido
     return header + payload

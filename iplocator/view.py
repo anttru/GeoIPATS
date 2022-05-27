@@ -1,6 +1,6 @@
+from optparse import Values
 import tkinter
 from tkinter import ttk
-from tkinter.messagebox import showinfo
 from tkintermapview import TkinterMapView
 from iplocator import FONT, SMALLERFONT
 from iplocator.model import Model
@@ -17,7 +17,6 @@ class View:
         self.width = width
         self.height = height
         self.data = {}
-        self.targetip = None
         self.valuestoip = {}
 
         self.createelements()
@@ -37,27 +36,56 @@ class View:
         self.map_widget.set_zoom(0)
         
         self.labelIp = tkinter.Label(self.buttonsframe, text = "Escriba la IP objetivo:", font =FONT)
-        self.labelIp.grid(column= 0, row= 0, sticky= tkinter.W, columnspan=2,padx= 20, pady = 20)
-
         self.targetIp = tkinter.StringVar()
         self.ipentry = tkinter.Entry(self.buttonsframe, textvariable=self.targetIp, font = FONT, width = 25)
-        self.ipentry.grid(column=0, row= 1, sticky=tkinter.W, columnspan=2, padx= 10)
+        
+        self.ttldropdown = ttk.Combobox(self.buttonsframe, state = "readonly", width = 25)
+        self.ttldropdown["values"] = ["hops = 15", "hops = 30", "hops = 45", "hops = 60"]
+        self.ttldropdown.set("hops = 30")
+        self.ttldropdown.bind("<<ComboboxSelected>>", self.setttl)
+
+        self.timeoutdropdown = ttk.Combobox(self.buttonsframe, state = "readonly", width = 25)
+        self.timeoutdropdown["values"] = ["timeout = 0.25", "timeout = 0.5", "timeout = 1", "timeout = 2"]
+        self.timeoutdropdown.set("timeout = 0.5")
+        self.timeoutdropdown.bind("<<ComboboxSelected>>", self.settimeout)
+
         
         self.sendButton = tkinter.Button(self.buttonsframe, text = "Localizar", font = FONT, command = self.placeroute)
-        self.sendButton.grid(column=0, row=2, sticky= tkinter.W, pady= 10, padx = 5)
-
         self.button = tkinter.Button(self.buttonsframe, text = "Borrar Todo", font = FONT, command = self.cleareverything)
-        self.button.grid(column=1, row= 2, pady= 10, padx = 5)
-        
+                
         self.progressbar = ttk.Progressbar(self.buttonsframe, orient='horizontal', mode='determinate', length= self.width//8, maximum=30, value= 0)
-        self.progressbar.grid(column=0, row = 3, columnspan= 2)
-
         self.progresslabel = ttk.Label(self.buttonsframe, text = "Esperando entrada de IP")
-        self.progresslabel.grid(column=0, row= 4, columnspan=2)
-
-        self.dropdownmenu = ttk.Combobox( self.buttonsframe, state = "readonly", width = 50)
+        
+        self.dropdownmenu = ttk.Combobox(self.buttonsframe, state = "readonly", width = 50)
         self.dropdownmenu.bind("<<ComboboxSelected>>", self.showinfo) #Cuando se selecciona una opción llama a showinfo
-        self.dropdownmenu.grid(column = 0, row = 5, columnspan=2, sticky= tkinter.W)
+
+        self.labelIp.grid(column = 0, row = 0, sticky= tkinter.W, columnspan=2,padx= 20, pady = 20) #Coloco todos los elementos con grid
+        self.ipentry.grid(column = 0, row = 1, sticky=tkinter.W, columnspan=2, padx= 10)
+        self.ttldropdown.grid(column  = 0, row = 2, sticky=tkinter.W, pady = 5)
+        self.timeoutdropdown.grid(column  = 1, row = 2, sticky=tkinter.W, pady = 5)
+        self.sendButton.grid(column=0, row=3, sticky= tkinter.W, pady= 10, padx = 5)
+        self.button.grid(column=1, row= 3, pady= 10, padx = 5, sticky = tkinter.W)
+        self.progressbar.grid(column=0, row = 4, columnspan= 2)
+        self.progresslabel.grid(column=0, row= 5, columnspan=2)
+        self.dropdownmenu.grid(column = 0, row = 6, columnspan=2, sticky= tkinter.W)
+
+    def setttl(self, a):
+        valuestottl = {
+            "hops = 15" : 15, 
+            "hops = 30" : 30,
+            "hops = 45" : 45,
+            "hops = 60" : 60
+        }
+        self.model.ttl = valuestottl[self.ttldropdown.get()]
+        
+    def settimeout(self, a):
+        valuestotimeout = {
+            "timeout = 0.25" : 0.25,
+            "timeout = 0.5"  : 0.5,
+            "timeout = 1"    : 1,
+            "timeout = 2"    : 2
+        }
+        self.model.timeout = valuestotimeout[self.timeoutdropdown.get()]
 
     def createresultsform(self):
         #Esta funcion contiene la creación y posicionamiento del formulario en el que se muestra la información de cada IP        
@@ -92,25 +120,25 @@ class View:
         self.orgentry = ttk.Entry(self.buttonsframe, font = SMALLERFONT, state="readonly", textvariable= self.orgtext, width = 35)
         self.asentry = ttk.Entry(self.buttonsframe, font = SMALLERFONT, state="readonly", textvariable= self.astext, width = 35)
         #Coloco los elementos creados anteriormente        
-        self.countrylabel.grid(column=0, row= 6)
-        self.regionlabel.grid(column=0, row= 7)
-        self.citylabel.grid(column=0, row= 8)
-        self.ziplabel.grid(column=0, row= 9)
-        self.coordslabel.grid(column=0, row= 10)
-        self.timezonelabel.grid(column=0, row= 11)
-        self.isplabel.grid(column=0, row= 12)
-        self.orglabel.grid(column=0, row= 13)
-        self.aslabel.grid(column=0, row= 14)
+        self.countrylabel.grid(column=0, row= 7)
+        self.regionlabel.grid(column=0, row= 8)
+        self.citylabel.grid(column=0, row= 9)
+        self.ziplabel.grid(column=0, row= 10)
+        self.coordslabel.grid(column=0, row= 11)
+        self.timezonelabel.grid(column=0, row= 12)
+        self.isplabel.grid(column=0, row= 13)
+        self.orglabel.grid(column=0, row= 14)
+        self.aslabel.grid(column=0, row= 15)
         
-        self.countryentry.grid(column= 1, row = 6)
-        self.regionentry.grid(column= 1, row = 7)
-        self.cityentry.grid(column= 1, row = 8)
-        self.zipentry.grid(column= 1, row = 9)
-        self.coordsentry.grid(column= 1, row = 10)
-        self.timezoneentry.grid(column= 1, row = 11)
-        self.ispentry.grid(column= 1, row = 12)
-        self.orgentry.grid(column= 1, row = 13)
-        self.asentry.grid(column= 1, row = 14)
+        self.countryentry.grid(column= 1, row = 7)
+        self.regionentry.grid(column= 1, row = 8)
+        self.cityentry.grid(column= 1, row = 9)
+        self.zipentry.grid(column= 1, row = 10)
+        self.coordsentry.grid(column= 1, row = 11)
+        self.timezoneentry.grid(column= 1, row = 12)
+        self.ispentry.grid(column= 1, row = 13)
+        self.orgentry.grid(column= 1, row = 14)
+        self.asentry.grid(column= 1, row = 15)
         #Los escondo, luego con hacer .grid() sin parámetros recordarán su posición        
         self.hideform()
 
@@ -137,7 +165,8 @@ class View:
         self.asentry.grid_remove()
 
         self.dropdownmenu.grid_remove()
-    
+        self.button.grid_remove()
+            
     def showform(self):
         #grid() sin parámetros recuerda la última configuración grid que tuvieron, esta función mostrará los elementos del formulario si estan ocultos.
         self.countrylabel.grid()
@@ -166,9 +195,10 @@ class View:
         ip = self.valuestoips[self.dropdownmenu.get()]
         self.map_widget.delete(self.marker)
         self.marker = None
-        if ip == None: #La IP es None cuando selecionamos la opción vacía de "selecione un router"
+        if ip == None: #La IP es None cuando seleccionamos la opción vacía de "selecione un router"
             self.hideform()
             self.dropdownmenu.grid()
+            self.button.grid()
             self.map_widget.set_zoom(0)
         else:
             self.showform()
@@ -205,11 +235,9 @@ class View:
             self.path.delete()
         self.path =  None
         self.progressbar["value"] = 0
-        self.progressbar["maximum"] = 30
+        self.progressbar["maximum"] = self.model.ttl
         self.progresslabel["text"] = "Esperando entrada de IP"
-        self.model.ipdata = []
-        self.model.iplist = []
-        self.model.notreachedflag = False
+        
         self.dropdownmenu["values"] = []
         self.data = {}
         self.valuestoips = {}
@@ -219,8 +247,7 @@ class View:
             self.map_widget.delete(self.marker)
             self.marker = None
         self.map_widget.set_zoom(0)
-        self.targetip = None
-        
+        self.model.resetmodel()        
 
     #Esta función crea la lista de valores para el elemento combobox de selección de router
     #también crea un diccionario para corresponder el texto de la selección con la ip que le corresponde
@@ -229,7 +256,7 @@ class View:
         counter = 1
         self.valuestoips = {"Seleccione un router para ver su información": None}
         for ip in iplist:
-            if ip != self.targetip:
+            if ip != self.model.targetIP:
                 values.append("Router {} : {}".format(counter, ip))
                 self.valuestoips["Router {} : {}".format(counter, ip)] = ip
             else:
@@ -252,8 +279,11 @@ class View:
     #finalmente, monta el menu de selección de routers y crea una estructura de datos para rellenar el formulario
     def placeroute(self):
         self.cleareverything()
+        self.sendButton.grid_remove()
+        self.ttldropdown.grid_remove()
+        self.timeoutdropdown.grid_remove()
         try:
-            self.targetip = self.model.getiplist(self.targetIp.get()) #guardamos la ip objetivo que devuelve getiplist como retorno para identificarla al crear el dropdown menu.
+            self.model.getiplist(self.targetIp.get()) 
             self.model.getipdatalist()
             if self.model.notreachedflag == True: #Si no se alcanzó el objetivo se informa por la barra de progreso
                 self.progresslabel["text"] =  "No se ha alcanzado la IP objetivo, faltan routers intermedios"
@@ -262,6 +292,10 @@ class View:
         self.showpath()
 
         self.data = dict(zip(self.model.iplist, self.model.ipdata)) #Se crea un diccionario en que la clave son las ips y los valores el diccionario (del json obtenido de la API) que contiene los datos de cada una 
-        self.dropdownmenu.grid() 
+        self.dropdownmenu.grid()
+        self.button.grid()
         self.dropdownmenu["values"] = self.createdropdownvalues(self.model.iplist)
         self.dropdownmenu.current(0)
+        self.sendButton.grid()
+        self.ttldropdown.grid()
+        self.timeoutdropdown.grid()
