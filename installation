@@ -1,4 +1,11 @@
+Los requisitos de este programa son python3 y sus modulos IPy y tkintermapview
+En linux además se necesita instalar PIL y pip. Estos serían los comandos necesarios para instalarlos en linux con apt. Es importante usar sudo porque el programa necesita
+permisos de administrador para funcionar y sera este usuario el que tenga instalados los módulos necesarios.
+
+ejemplo de instalacion de requisitos en linux con apt:
+
 sudo apt-get install python-tk
 sudo apt-get install python3-pil python3-pil.imagetk
+sudo apt install python3-pip
 sudo pip install IPy
 sudo pip install tkintermapview
