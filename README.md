@@ -5,7 +5,7 @@ La entrada acepta IPsv4 de tipo público o URLS. Puede seleccionarse el número 
 Se mostrará la ruta en el mapa y un menú para seleccionar las ips y ver sus datos.
 Con el boton borrar se puede limpiar el mapa y los datos de IPs guardados. Se limpiarán también al realizar una nueva búsqueda.
 
-El programa se ejecuta ejecutando app.py con el intérprete de Python. En linux necesitará permisos de administrador para funcionar correctamente (sudo python3 app.py).
+El programa se ejecuta ejecutando GeoIPATS.py con el intérprete de Python. En linux necesitará permisos de administrador para funcionar correctamente (sudo python3 GeoIPATS.py).
 
 Para un uso más fácil, puede descargarse esta versión que trae todos los requisitos:
 
