@@ -9,8 +9,11 @@ El programa se ejecuta ejecutando GeoIPATS.py con el intérprete de Python. En l
 
 Para un uso más fácil, puede descargarse esta versión que trae todos los requisitos:
 
-Windows: 
+Windows: https://mega.nz/file/hCZxSYrR#vQJSWo2shFA5CYYmdk8azuKP0h7lHUOuKH7UYgcv5l0
+Instrucciones para Windows : Descargar el archivo .zip, descomprimirlo, abrir la carpeta y hacer doble clic sobre GeoIPATS.exe
+
 Linux:
 
-Puede hacerse uso de las funciones del modelo instanciando un modelo y usando sus métodos directamente. 
+
+Nota para programadores: Puede hacerse uso de las funciones del modelo instanciando un modelo y usando sus métodos directamente sin usar la aplicación gráfica. 
 
