@@ -77,6 +77,7 @@ class Model:
     def getipsWin(self, ip):
         #Lanzamos un subproceso  tracert con Popen.
         lines = []
+        progress = -3 #El progreso empieza a -3 porque el tracert tiene 3 lineas al comienzo que no se corresponden con ips
         tracertprocess = subprocess.Popen(["tracert", "-w", "{:d}".format(int(self.timeout * 1000)), "-d", "-h", "{:d}".format(self.ttl), ip], stdout=subprocess.PIPE)
         while True:
             if self.root:
@@ -86,9 +87,13 @@ class Model:
                 break
             lines.append(str(line))
             if ip != None and self.view != None: #Las interacciones con View se limitan al caso de que exista para poder usar este módulo independientemente.
+                progress += 1
                 self.view.progressbar["maximum"] = self.ttl
-                self.view.progressbar["value"] += 1  #actualizamos el valor de la barra de progreso
-                self.view.progresslabel["text"] = "Hop {} de un máximo de {:d}".format(self.view.progressbar["value"] - 3, self.ttl)
+                if progress > 0:
+                    self.view.progressbar["value"] = progress  #actualizamos el valor de la barra de progreso
+                else:
+                    self.view.progressbar["value"] = 1
+                self.view.progresslabel["text"] = "Hop {} de un máximo de {:d}".format(self.view.progressbar["value"], self.ttl)
         self.iplist = self.extractIPs(lines) #extraemos las ips del texto del tracert
         if self.iplist[-1] != ip: #Si no se ha llegado al objetivo, se añade pero se activa un flag para informar del error
             self.iplist.append(ip)
