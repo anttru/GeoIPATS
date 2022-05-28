@@ -1,5 +1,7 @@
 # Gelolocalizador ATS
 
+Aplicación gráfica para la geolocalización de rutas IP. 
+
 Este programa requiere los módulos IPy y tkintermapview que pueden instalarse con PIP, en Windows es suficiente con estos dos y Python3, en linux necesita además PIL, para mas detalles se puede consutlar el archivo installation.
 La entrada acepta IPsv4 de tipo público o URLS. Puede seleccionarse el número máximo de routers con los que se intentará contactar (hops) y el tiempo de espera para cada uno de los tres intentos de contacto con cada uno de ellos ( timeout) en un menú desplegable.
 Se mostrará la ruta en el mapa y un menú para seleccionar las ips y ver sus datos.
