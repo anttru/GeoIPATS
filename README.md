@@ -14,7 +14,8 @@ Para un uso más fácil, puede descargarse esta versión que trae todos los requ
 Windows: https://mega.nz/file/hCZxSYrR#vQJSWo2shFA5CYYmdk8azuKP0h7lHUOuKH7UYgcv5l0
 Instrucciones para Windows : Descargar el archivo .zip, descomprimirlo, abrir la carpeta y hacer doble clic sobre GeoIPATS.exe
 
-Linux:
+Linux: https://mega.nz/file/1XJQAJzb#v-aQiMAfwZmYUcrTbDE3Z9OSFfllGlBUju1XC91lKSQ
+Instrucciones para Linux : Descargar el archivo. tar, extraer su contenido. Dentro de la carpeta debemos ejecutar script GeoIPATSStart.sh ya sea haciendole doble clic o desde la línea de comandos.
 
 
 Nota para programadores: Puede hacerse uso de las funciones del modelo instanciando un modelo y usando sus métodos directamente sin usar la aplicación gráfica. 
