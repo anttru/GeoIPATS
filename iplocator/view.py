@@ -25,13 +25,23 @@ class View:
 
     #Esta función crea los elementos de la ventana
     def createelements(self):
-        self.buttonsframe = tkinter.Frame(self.root, width = self.width/4, height = self.height)
-        self.buttonsframe.place(x= self.width*3/4, y = 0)
+        if self.width > 1000:    
+            self.buttonsframe = tkinter.Frame(self.root, width = self.width/4, height = self.height)
+            self.buttonsframe.place(x= self.width*3/4, y = 0)
+        else:
+            self.buttonsframe = tkinter.Frame(self.root, width = self.width/2, height = self.height)
+            self.buttonsframe.place(x= self.width*1/2, y = 0)
         
-        self.mapframe = tkinter.Frame(self.root, width = self.width * 3/4, height = self.height)
+        if self.width > 1000:
+            self.mapframe = tkinter.Frame(self.root, width = self.width * 3/4, height = self.height)
+        else:
+            self.mapframe = tkinter.Frame(self.root, width = self.width * 1/2, height = self.height)
         self.mapframe.place(x = 0, y = 0)
         
-        self.map_widget = TkinterMapView(self.mapframe, width = self.width * 3/4, height = self.height, corner_radius = 0)
+        if self.width > 1000:
+            self.map_widget = TkinterMapView(self.mapframe, width = self.width * 3/4, height = self.height, corner_radius = 0)
+        else:
+            self.map_widget = TkinterMapView(self.mapframe, width = self.width * 1/2, height = self.height, corner_radius = 0)
         self.map_widget.place(relx = 0.5, rely = 0.5, anchor=tkinter.CENTER)
         self.map_widget.set_zoom(0)
         
