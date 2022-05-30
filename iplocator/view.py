@@ -69,15 +69,15 @@ class View:
         self.dropdownmenu = ttk.Combobox(self.buttonsframe, state = "readonly", width = 50)
         self.dropdownmenu.bind("<<ComboboxSelected>>", self.showinfo) #Cuando se selecciona una opción llama a showinfo
 
-        self.labelIp.grid(column = 0, row = 0, sticky= tkinter.W, columnspan=2,padx= 20, pady = 20) #Coloco todos los elementos con grid
+        self.labelIp.grid(column = 0, row = 0, sticky= tkinter.W, columnspan=2,padx= 10, pady = 20) #Coloco todos los elementos con grid
         self.ipentry.grid(column = 0, row = 1, sticky=tkinter.W, columnspan=2, padx= 10)
         self.ttldropdown.grid(column  = 0, row = 2, sticky=tkinter.W, pady = 5)
         self.timeoutdropdown.grid(column  = 1, row = 2, sticky=tkinter.W, pady = 5)
         self.sendButton.grid(column=0, row=3, sticky= tkinter.W, pady= 10, padx = 5)
         self.button.grid(column=1, row= 3, pady= 10, padx = 5, sticky = tkinter.W)
-        self.progressbar.grid(column=0, row = 4, columnspan= 2)
+        self.progressbar.grid(column=0, row = 4, columnspan= 2, sticky = tkinter.W, padx = 10)
         self.progresslabel.grid(column=0, row= 5, columnspan=2)
-        self.dropdownmenu.grid(column = 0, row = 6, columnspan=2, sticky= tkinter.W)
+        self.dropdownmenu.grid(column = 0, row = 6, columnspan=2, sticky= tkinter.W, padx = 10)
 
     def setttl(self, a):
         valuestottl = {
