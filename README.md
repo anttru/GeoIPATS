@@ -11,7 +11,7 @@ El programa se ejecuta ejecutando GeoIPATS.py con el intérprete de Python. En l
 
 Para un uso más fácil, puede descargarse esta versión que trae todos los requisitos:
 
-Windows: https://mega.nz/file/hLoRiZ7J#0y42-8yoNbhkfz5OSFrr9NLQwbObwL9pAuq8vw8aOPU
+Windows: https://mega.nz/file/pGITjB5I#_G2ywxoUbQ1IzohW0buoh6fDHiwwAY0KPTgeNEFGB34
 
 Instrucciones para Windows : Descargar el archivo .zip, descomprimirlo, abrir la carpeta y hacer doble clic sobre GeoIPATS.exe
 
