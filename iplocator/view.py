@@ -1,9 +1,11 @@
-from optparse import Values
 import tkinter
 from tkinter import ttk
 from tkintermapview import TkinterMapView
 from iplocator import FONT, SMALLERFONT
 from iplocator.model import Model
+
+class MapError(Exception):
+    pass
 
 #Esta clase se encarga de mostrar en la ventana los elementos y los datos obtenidos del modelo
 class View:
@@ -281,8 +283,10 @@ class View:
             self.root.update() #actualiza la ventana en cada iteracion
             if ip["status"] == "success":
                 self.pathcoordslist.append((ip["lat"], ip["lon"]))
-        if len(self.pathcoordslist) > 0:
+        if len(self.pathcoordslist) > 1:
             self.path = self.map_widget.set_path(self.pathcoordslist)
+        elif len(self.pathcoordslist) <= 1:
+            raise MapError("Sin resultados, compruebe su conexión")
     
     #esta función es llamada por el botón para realizar todo el proceso de obtención de datos y muestra sobre el mapa de la ruta
     #si hay alguna excepción que impida realizar el proceso, se informa en la barra de progreso
@@ -297,10 +301,9 @@ class View:
             self.model.getipdatalist()
             if self.model.notreachedflag == True: #Si no se alcanzó el objetivo se informa por la barra de progreso
                 self.progresslabel["text"] =  "No se ha alcanzado la IP objetivo, faltan routers intermedios"
-        except Exception as e :
+            self.showpath()
+        except Exception as e:
             self.progresslabel["text"] =  e
-        self.showpath()
-
         self.data = dict(zip(self.model.iplist, self.model.ipdata)) #Se crea un diccionario en que la clave son las ips y los valores el diccionario (del json obtenido de la API) que contiene los datos de cada una 
         self.dropdownmenu.grid()
         self.button.grid()

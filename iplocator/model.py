@@ -68,8 +68,9 @@ class Model:
         self.iplist = []
         self.targetIP = self.validateiporurl(iporurl)
         #Lanzamos un subproceso  tracert con Popen.
-        if platform.system() == "Windows":
+        if platform.system() == "Windows": #Si se quiere usar la implementación de protocolos de red que requiere desactivar o reconfigurar el firewall de windows, descomentar la linea de traceroute y comentar la de getipsWin
             self.getipsWin(self.targetIP)
+            #self.traceroute(self.targetIP, maxhops = self.ttl , timeout= self.timeout)
         else:
             self.traceroute(self.targetIP, maxhops = self.ttl , timeout= self.timeout)
         return self.iplist
@@ -175,7 +176,7 @@ class Model:
         #esta función envía desde una socket con un tll, ip objetivo e id especificadas como argumentos
         packet = create_packet(id, sequence) #montamos el paquete a envíar
         icmpsocket.setsockopt(socket.IPPROTO_IP, socket.IP_TTL, ttl) #Se configura el ttl en la socket
-        target = socket.getaddrinfo(ip, port = None, family= icmpsocket.family, type=icmpsocket.type)[0][4] #Se obtiene el objetivo en formato necesario para la socket
+        target = socket.getaddrinfo(ip, port = None, family = icmpsocket.family, type = icmpsocket.type)[0][4] #Se obtiene el objetivo en formato necesario para la socket
         icmpsocket.sendto(packet, target)
 
     def receive(self, timeout, icmpsocket : socket.socket):
